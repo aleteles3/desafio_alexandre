@@ -16,6 +16,7 @@ namespace prova_alexandre.Models
 
         public Produto produto { get; set; }
 
+        [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Quantidade deve ser maior que 0")]
         public int qtde_comprada { get; set; }
 

@@ -10,19 +10,21 @@ using prova_alexandre.Models;
 
 namespace prova_alexandre.Controllers
 {
-    [Route("api/pagamentos/compras")]
+    [Route("api/pagamento/compras")]
     [ApiController]
     public class PagamentosController : ControllerBase
     {
         [HttpPost]
-        public ActionResult<Pagamento> PostPagamento(Compra compra)
+        public ActionResult<Pagamento> PostPagamento(Pagamento pagamento)
         {
-            if (compra.produto.valor_unitario * compra.qtde_comprada > 100)
+            pagamento.estado = "REJEITADO";
+
+            if (pagamento.valor > 100)
             {
-                return Ok();
+                pagamento.estado = "APROVADO";
             }
 
-            return BadRequest();
+            return pagamento;
 
         }
     }

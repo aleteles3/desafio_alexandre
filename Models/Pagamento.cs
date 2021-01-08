@@ -11,5 +11,7 @@ namespace prova_alexandre.Models
         public double valor { get; set; }
 
         public string estado { get; set; }
+
+        public Cartao cartao { get; set; }
     }
 }

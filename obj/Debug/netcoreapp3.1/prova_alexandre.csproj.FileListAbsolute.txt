@@ -153,5 +153,6 @@ C:\Users\Alexandre\source\repos\prova_alexandre\bin\Debug\netcoreapp3.1\fm.Exten
 C:\Users\Alexandre\source\repos\prova_alexandre\bin\Debug\netcoreapp3.1\fm.Extensions.Logging.dll
 C:\Users\Alexandre\source\repos\prova_alexandre\bin\Debug\netcoreapp3.1\System.Net.Http.Formatting.dll
 C:\Users\Alexandre\source\repos\prova_alexandre\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\Alexandre\source\repos\prova_alexandre\bin\Debug\netcoreapp3.1\System.Web.Http.dll
 C:\Users\Alexandre\source\repos\prova_alexandre\obj\Debug\netcoreapp3.1\prova_alexandre.csproj.CoreCompileInputs.cache
 C:\Users\Alexandre\source\repos\prova_alexandre\obj\Debug\netcoreapp3.1\prova_alexandre.MvcApplicationPartsAssemblyInfo.cache

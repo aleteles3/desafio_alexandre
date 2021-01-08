@@ -11,12 +11,15 @@ namespace prova_alexandre.Models
         [Key]
         public int Id { get; set; }
 
-        [MaxLength(1024, ErrorMessage = "Este campo suporte até 1024 caracteres.")]
+        [Required(ErrorMessage = "Este campo é obrigatório")]
+        [MaxLength(1024, ErrorMessage = "Este campo suporta até 1024 caracteres.")]
         public string nome { get; set; }
 
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         [Range(0, double.MaxValue, ErrorMessage = "Este campo não deve conter valores negativos.")]
         public double valor_unitario { get; set; }
 
+        [Required(ErrorMessage = "Este campo é obrigatório")]
         [Range(0, int.MaxValue, ErrorMessage = "Este campo não deve conter valores negativos.")]
         public int qtde_estoque { get; set; }
 

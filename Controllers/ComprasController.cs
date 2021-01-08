@@ -81,40 +81,64 @@ namespace prova_alexandre.Controllers
         [HttpPost]
         public async Task<ActionResult<Compra>> PostCompra(Compra compra)
         {
+            if (compra == null)
+            {
+                return BadRequest("Ocorreu um erro desconhecido");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(412, "Os valores informados não são válidos.");
+            }
+
             // Obter produto da compra
             compra.produto = await _context.Produtos.FindAsync(compra.produto_id);
 
             // Verificar se tem produto disponível no estoque
             if (compra.produto != null && compra.produto.qtde_estoque >= compra.qtde_comprada)
             {
+
                 // Requisitar POST da API de pagamento para validação                  
                 using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("http://localhost:5000/api/pagamentos/compras");
+                    client.BaseAddress = new Uri("http://localhost:5000/api/pagamento/compras");
 
+                    var pagamento = new Pagamento();
+                    pagamento.cartao = compra.cartao;
+                    pagamento.valor = compra.produto.valor_unitario * compra.qtde_comprada;
+                 
                     //HTTP POST
-                    var postTask = client.PostAsJsonAsync<Compra>(client.BaseAddress, compra);
+                    var postTask = client.PostAsJsonAsync<Pagamento>(client.BaseAddress, pagamento);
                     postTask.Wait();
 
                     var result = postTask.Result;
 
                     if (result.IsSuccessStatusCode)
                     {
-                        // Registrar data da última venda no produto
-                        compra.data_compra = DateTime.Today.ToString();
-                        compra.produto.data_ultima_venda = compra.data_compra;
+                        pagamento = await result.Content.ReadAsAsync<Pagamento>();
 
-                        // Decrementar qtde em estoque
-                        compra.produto.qtde_estoque -= compra.qtde_comprada;
+                        if (pagamento.estado == "APROVADO")
+                        {
+                            // Registrar data da última venda no produto
+                            compra.data_compra = DateTime.Today.ToString();
+                            compra.produto.data_ultima_venda = compra.data_compra;
 
-                        _context.Compras.Add(compra);
-                        await _context.SaveChangesAsync();
+                            // Decrementar qtde em estoque
+                            compra.produto.qtde_estoque -= compra.qtde_comprada;
 
-                        return CreatedAtAction(nameof(GetCompra), new { id = compra.Id }, compra);
+                            _context.Compras.Add(compra);
+                            await _context.SaveChangesAsync();
+
+                            return Ok("Compra realizada com sucesso.");
+                        }
+                        else
+                        {
+                            return BadRequest("Pagamento não aprovado.");
+                        }
                     }
                 }
             }
-            return BadRequest();
+            return BadRequest("Ocorreu um erro desconhecido.");
             
         }
 

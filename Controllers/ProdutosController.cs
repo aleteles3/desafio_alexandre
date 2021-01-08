@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http.Description;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,7 @@ namespace prova_alexandre.Controllers
 
             if (produto == null)
             {
-                return NotFound();
+                return BadRequest("Ocorreu um erro desconhecido.");
             }
 
             return produto;
@@ -80,10 +81,19 @@ namespace prova_alexandre.Controllers
         [HttpPost]
         public async Task<ActionResult<Produto>> PostProduto(Produto produto)
         {
+            if (produto == null)
+            {
+                return BadRequest("Ocorreu um erro desconhecido");
+            }
+
+            if (!ModelState.IsValid) {
+                return StatusCode(412, "Os valores informados não são válidos.");
+            }
+
             _context.Produtos.Add(produto);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetProduto), new { id = produto.Id }, produto);
+            return Ok("Produto Cadastrado");
         }
 
         // DELETE: api/Produtos/5
@@ -93,13 +103,13 @@ namespace prova_alexandre.Controllers
             var produto = await _context.Produtos.FindAsync(id);
             if (produto == null)
             {
-                return NotFound();
+                return BadRequest("Ocorreu um erro desconhecido.");
             }
 
             _context.Produtos.Remove(produto);
             await _context.SaveChangesAsync();
 
-            return produto;
+            return Ok("Produto excluído com sucesso.");
         }
 
         private bool ProdutoExists(int id)
