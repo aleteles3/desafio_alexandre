@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>prova_alexandre</name>
+    </assembly>
+    <members>
+        <member name="M:prova_alexandre.Controllers.ComprasController.PostCompra(prova_alexandre.Models.Compra)">
+            <summary>
+            Realizar uma nova compra. Esta rota invocará a rota de pagamentos.
+            </summary>
+            <param name="compra">Modelo da compra.</param>
+            <response code="200">Produto cadastrado com sucesso.</response>
+            <response code="400">Ocorreu um erro desconhecido / Pagamento não aprovado.</response>
+            <response code="412">Valores informados não são válidos.</response>
+        </member>
+        <member name="M:prova_alexandre.Controllers.PagamentosController.PostPagamento(prova_alexandre.Models.Pagamento)">
+            <summary>
+            Valida o pagamento online.
+            </summary>
+            <param name="pagamento">Modelo do pagamento.</param>
+        </member>
+        <member name="M:prova_alexandre.Controllers.ProdutosController.GetProduto">
+            <summary>
+            Retorna todos os produtos disponíveis para venda.
+            </summary>
+            <response code="200">Lista de produtos obtida com sucesso.</response>
+            <response code="400">Ocorreu um erro desconhecido.</response>
+        </member>
+        <member name="M:prova_alexandre.Controllers.ProdutosController.GetProduto(System.Int32)">
+            <summary>
+            Retorna um produto específico por ID.
+            </summary>
+            <param name="id">ID do produto.</param>
+            <response code="200">Produto obtido com sucesso.</response>
+            <response code="400">Ocorreu um erro desconhecido.</response>
+            <response code="404">Produto não encontrado.</response>
+        </member>
+        <member name="M:prova_alexandre.Controllers.ProdutosController.PostProduto(prova_alexandre.Models.Produto)">
+            <summary>
+            Cadastra um novo produto.
+            </summary>
+            <param name="produto">Modelo do produto.</param>
+            <response code="200">Produto cadastrado com sucesso.</response>
+            <response code="400">Ocorreu um erro desconhecido.</response>
+            <response code="412">Valores informados não são válidos.</response>
+        </member>
+        <member name="M:prova_alexandre.Controllers.ProdutosController.DeleteProduto(System.Int32)">
+            <summary>
+            Remove o cadastro de um produto.
+            </summary>
+            <param name="id">ID do produto a ser removido.</param>
+            <response code="200">Produto removido com sucesso.</response>
+            <response code="400">Ocorreu um erro desconhecido.</response>
+        </member>
+    </members>
+</doc>

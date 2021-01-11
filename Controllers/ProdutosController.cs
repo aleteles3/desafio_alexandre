@@ -11,7 +11,7 @@ using prova_alexandre.Models;
 
 namespace prova_alexandre.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/produtos")]
     [ApiController]
     public class ProdutosController : ControllerBase
     {
@@ -22,27 +22,60 @@ namespace prova_alexandre.Controllers
             _context = context;
         }
 
-        // GET: api/Produtos
+        /// <summary>
+        /// Retorna todos os produtos disponíveis para venda.
+        /// </summary>
+        /// <response code="200">Lista de produtos obtida com sucesso.</response>
+        /// <response code="400">Ocorreu um erro desconhecido.</response>
         [HttpGet]
+        [ProducesResponseType(typeof(List<Produto>), 200)]
+        [ProducesResponseType(400)]
         public async Task<ActionResult<IEnumerable<Produto>>> GetProduto()
         {
-            return await _context.Produtos.ToListAsync();
+            try
+            {
+                var produtos = await _context.Produtos.ToListAsync();
+                return Ok(produtos);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Ocorreu um erro desconhecido.");
+            }
         }
 
-        // GET: api/Produtos/5
+        /// <summary>
+        /// Retorna um produto específico por ID.
+        /// </summary>
+        /// <param name="id">ID do produto.</param>
+        /// <response code="200">Produto obtido com sucesso.</response>
+        /// <response code="400">Ocorreu um erro desconhecido.</response>
+        /// <response code="404">Produto não encontrado.</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Produto), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<Produto>> GetProduto(int id)
         {
-            var produto = await _context.Produtos.FindAsync(id);
+            try
+            {
+                var produto = await _context.Produtos.FindAsync(id);
 
-            if (produto == null)
+                if (produto == null)
+                {
+                    return NotFound("Produto não encontrado.");
+                }
+
+                return Ok(produto);
+            }
+            catch(Exception)
             {
                 return BadRequest("Ocorreu um erro desconhecido.");
             }
 
-            return produto;
+            
         }
 
+        /*
         // PUT: api/Produtos/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -74,11 +107,19 @@ namespace prova_alexandre.Controllers
 
             return NoContent();
         }
+        */
 
-        // POST: api/Produtos
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Cadastra um novo produto.
+        /// </summary>
+        /// <param name="produto">Modelo do produto.</param>
+        /// <response code="200">Produto cadastrado com sucesso.</response>
+        /// <response code="400">Ocorreu um erro desconhecido.</response>
+        /// <response code="412">Valores informados não são válidos.</response>
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(412)]
         public async Task<ActionResult<Produto>> PostProduto(Produto produto)
         {
             if (produto == null)
@@ -96,7 +137,14 @@ namespace prova_alexandre.Controllers
             return Ok("Produto Cadastrado");
         }
 
-        // DELETE: api/Produtos/5
+        /// <summary>
+        /// Remove o cadastro de um produto.
+        /// </summary>
+        /// <param name="id">ID do produto a ser removido.</param>
+        /// <response code="200">Produto removido com sucesso.</response>
+        /// <response code="400">Ocorreu um erro desconhecido.</response>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Produto>> DeleteProduto(int id)
         {

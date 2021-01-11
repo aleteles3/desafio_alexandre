@@ -12,6 +12,7 @@ namespace prova_alexandre.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Este campo é obrigatório")]
+        [MinLength(1)]
         [MaxLength(1024, ErrorMessage = "Este campo suporta até 1024 caracteres.")]
         public string nome { get; set; }
 

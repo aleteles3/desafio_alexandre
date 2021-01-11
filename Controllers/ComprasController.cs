@@ -11,7 +11,7 @@ using System.Net.Http;
 
 namespace prova_alexandre.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/compras")]
     [ApiController]
     public class ComprasController : ControllerBase
     {
@@ -22,6 +22,7 @@ namespace prova_alexandre.Controllers
             _context = context;
         }
 
+        /*
         // GET: api/Compras
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Compra>>> GetCompras()
@@ -42,7 +43,9 @@ namespace prova_alexandre.Controllers
 
             return compra;
         }
+        */
 
+        /*
         // PUT: api/Compras/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -74,11 +77,19 @@ namespace prova_alexandre.Controllers
 
             return NoContent();
         }
+        */
 
-        // POST: api/Compras
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        /// <summary>
+        /// Realizar uma nova compra. Esta rota invocará a rota de pagamentos.
+        /// </summary>
+        /// <param name="compra">Modelo da compra.</param>
+        /// <response code="200">Produto cadastrado com sucesso.</response>
+        /// <response code="400">Ocorreu um erro desconhecido / Pagamento não aprovado.</response>
+        /// <response code="412">Valores informados não são válidos.</response>
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(412)]
         public async Task<ActionResult<Compra>> PostCompra(Compra compra)
         {
             if (compra == null)
@@ -142,6 +153,7 @@ namespace prova_alexandre.Controllers
             
         }
 
+        /*
         // DELETE: api/Compras/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Compra>> DeleteCompra(int id)
@@ -162,5 +174,6 @@ namespace prova_alexandre.Controllers
         {
             return _context.Compras.Any(e => e.Id == id);
         }
+        */
     }
 }

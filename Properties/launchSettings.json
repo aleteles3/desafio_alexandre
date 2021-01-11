@@ -20,7 +20,7 @@
     "prova_alexandre": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/produtos",
+      "launchUrl": "index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

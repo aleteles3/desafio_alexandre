@@ -14,6 +14,10 @@ namespace prova_alexandre.Controllers
     [ApiController]
     public class PagamentosController : ControllerBase
     {
+        /// <summary>
+        /// Valida o pagamento online.
+        /// </summary>
+        /// <param name="pagamento">Modelo do pagamento.</param>
         [HttpPost]
         public ActionResult<Pagamento> PostPagamento(Pagamento pagamento)
         {
